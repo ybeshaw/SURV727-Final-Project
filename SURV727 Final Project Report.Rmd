@@ -9,6 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Github Link 
+https://github.com/ybeshaw/SURV727-Final-Project.git
 
 # Health Communication and Technology in Healthy People Agendas 2020 and 2030
 ## Abstract
