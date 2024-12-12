@@ -1,7 +1,11 @@
 ---
 title: "SURV727 Final Project Report"
 author: "Yael Beshaw"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -12,6 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 https://github.com/ybeshaw/SURV727-Final-Project.git
 
 # Health Communication and Technology in Healthy People Agendas 2020 and 2030
+
 ## Abstract
 This project aims to analyze the volume of coverage regarding the Health 
 Communication and Technology objectives of Healthy People Agendas 2020 and 2030.
@@ -23,6 +28,7 @@ at a topic relatively new in the scope of public health- Health Communication
 and Technology. In the Healthy People Agendas, objectives that fall under
 Health Communication and Technology refer mainly to how the public engages with 
 their health using technology and the internet.
+
 ## Research Question
 How prevalent are these topics across different stakeholders (citizens, news,
 lawmakers) and does prevalence differ across the progression of these 
@@ -39,7 +45,7 @@ topics. We observed 6 objectives, 3 from Healthy People 2020 and 3 from
 Healthy People 2030, with one of each in the "Target Met', "No Change", and
 "Getting Worse" progression category. 
 
-###Objectives of Interest
+### Objectives of Interest
 #### Healthy People 2020 (January 2015- December 2019)
 1. Target Met: 
 HC/HIT- 5.1 Persons using the internet to keep track of personal
@@ -70,7 +76,7 @@ Increase the proportion of adults with broadband internet access.
 ## Data Collection
 Data collection was conducting utilizing Google Trends, Dow Jones Factiva, and 
 GovTrack.
-```{r, echo=FALSE, message=FALSE, error=FALSE}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning= FALSE}
 #load packages
 library(readr)
 library(tidyverse)
@@ -89,78 +95,100 @@ library(jsonlite)
 Collected data from January 1st 2015 to December 31st 2019 or January 1st 2020
 to December 1st 2024 depending on whether the objective is part of 2020 or
 2030. For the purposes of this project, two keywords/objective were collected.
-#####Healthy People 2020: Target Met
-Keywords: “mychart”, “health track”
-```{r, echo=FALSE}
-Sys.sleep(120)
+Due to Google Trends Rate Limit, we save the results as datasets, extracting
+the datasets we are interested in observing.
 
-targetmet_20 <- gtrends(
-  c("mychart", "health app"),
-  geo="US",
-  time= "2015-01-01 2019-12-31",
-  low_search_volume = TRUE)
+##### Healthy People 2020: Target Met
+i. Keywords: “mychart”, “health track”
+```{r, echo=FALSE, warning=FALSE}
+#targetmet_20 <- gtrends(
+  #c("mychart", "health app"),
+  #geo="US",
+  #time= "2015-01-01 2019-12-31",
+  #low_search_volume = TRUE)
 ```
-#####Healthy People 2020:  No Change
-Keywords: "electronic health records", "symptoms"
-```{r, echo=FALSE}
-Sys.sleep(120)
-
-nochange_20 <- gtrends(
-  c("electronic health records", "symptoms"),
-  geo="US",
-  time= "2015-01-01 2019-12-31",
-  low_search_volume = TRUE)
+##### Healthy People 2020:  No Change
+i. Keywords: "electronic health records", "symptoms"
+```{r, echo=FALSE, warning=FALSE}
+#nochange_20 <- gtrends(
+  #c("electronic health records", "symptoms"),
+  #geo="US",
+  #time= "2015-01-01 2019-12-31",
+  #low_search_volume = TRUE)
 ```
-#####Healthy People 2020:  Getting Worse
-Keywords: “mychart”, “health track”
-```{r, echo=FALSE}
-Sys.sleep(120)
-
-worse_20 <- gtrends(
-  c("broadband internet", "high speed"),
-  geo="US",
-  time= "2015-01-01 2019-12-31",
-  low_search_volume = TRUE)
+##### Healthy People 2020:  Getting Worse
+i. Keywords: “mychart”, “health track”
+```{r, echo=FALSE, warning=FALSE}
+#worse_20 <- gtrends(
+  #c("broadband internet", "high speed"),
+  #geo="US",
+  #time= "2015-01-01 2019-12-31",
+  #low_search_volume = TRUE)
 ```
-#####Healthy People 2020: Target Met
-Keywords: “mychart”, “health track”
-```{r, echo=FALSE}
-Sys.sleep(120)
-
-targetmet_30 <- gtrends(
-  c("telehealth", "health provider"),
-  geo="US",
-  time= "2020-01-01 2024-12-01",
-  low_search_volume = TRUE)
+##### Healthy People 2020: Target Met
+i. Keywords: “mychart”, “health track”
+```{r, echo=FALSE, warning=FALSE}
+#targetmet_30 <- gtrends(
+  #c("telehealth", "health provider"),
+  #geo="US",
+  #time= "2020-01-01 2024-12-01",
+  #low_search_volume = TRUE)
 ```
-#####Healthy People 2020:  No Change
-Keywords: "electronic health records", "symptoms"
-```{r, echo=FALSE}
-Sys.sleep(120)
-
-nochange_30 <- gtrends(
-  c("mychart", "health app"),
-  geo="US",
-  time= "2020-01-01 2024-12-01",
-  low_search_volume = TRUE)
+##### Healthy People 2020:  No Change
+i. Keywords: "electronic health records", "symptoms"
+```{r, echo=FALSE, warning=FALSE}
+#nochange_30 <- gtrends(
+  #c("mychart", "health app"),
+  #geo="US",
+  #time= "2020-01-01 2024-12-01",
+  #low_search_volume = TRUE)
 ```
-#####Healthy People 2020:  Getting Worse
-Keywords: "broadband internet", "high speed"
-```{r, echo=FALSE}
-Sys.sleep(120)
+##### Healthy People 2020:  Getting Worse
+i. Keywords: "broadband internet", "high speed"
+```{r, echo=FALSE, warning=FALSE}
+#worse_30 <- gtrends(
+  #c("broadband internet", "high speed"),
+  #geo="US",
+  #time= "2020-01-01 2024-12-01",
+  #low_search_volume = TRUE)
+```
 
-worse_30 <- gtrends(
-  c("broadband internet", "high speed"),
-  geo="US",
-  time= "2020-01-01 2024-12-01",
-  low_search_volume = TRUE)
+```{r, echo=FALSE, warning=FALSE}
+#call all datasets back after moving to desired location
+#interest
+targetmet_20 <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/hits/targetmet_20.csv",
+                         show_col_types = FALSE)
+
+nochange_20 <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/hits/nochange_20.csv", 
+                   show_col_types = FALSE)
+worse_20 <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/hits/worse_20.csv", 
+                   show_col_types = FALSE)
+targetmet_30 <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/hits/targetmet_30.csv", 
+                   show_col_types = FALSE)
+nochange_30 <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/hits/nochange_30.csv", 
+                   show_col_types = FALSE)
+worse_30 <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/hits/worse_30.csv", 
+                   show_col_types = FALSE)
+#state
+targetmet_20_state <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/states/targetmet_20_state.csv",
+                         show_col_types = FALSE)
+nochange_20_state <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/states/nochange_20_state.csv", 
+                   show_col_types = FALSE)
+worse_20_state <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/states/worse_20_state.csv", 
+                   show_col_types = FALSE)
+targetmet_30_state <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/states/targetmet_30_state.csv", 
+                   show_col_types = FALSE)
+nochange_30_state <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/states/nochange_30_state.csv", 
+                   show_col_types = FALSE)
+worse_30_state <- read_csv("~/R Scripts and Projects/SURV727-Final-Project/data/states/worse_30_state.csv", 
+                   show_col_types = FALSE)
 ```
 
 ### Dow Jones 
 Collected data from the Dow Jones Factiva for each of the six objectives. For
 this project we look at data from the New York Times, Wall Street Journal,
 and National Public Radio. Each query was done individually and results
-were combined in csv file "hit727".
+were combined in file "hit727.csv".
 ```{r, echo=FALSE}
 hit727 <- read_csv("~/R Scripts and Projects/727_hits.csv", 
                    show_col_types = FALSE)
@@ -198,16 +226,25 @@ hit727 <- read_csv("~/R Scripts and Projects/727_hits.csv",
 ### Congressional Terms
 Collected data utilizing GovTracker and filter across the past five 
 congressional terms (2015-present). Observed 3 subtopics of congressional bills
-related to the objectives...
+related to the objectives.
+
 1. Internet, web applications, social media
+
 2. Health information and medical records
+
 3. Health promotion and preventative care 
 
-Congressional Terms
+
+Congressional Terms:
+
 114; 2015-2017
+
 115; 2017-2019
+
 116; 2019-2021
+
 117; 2021-2023
+
 118; 2023-2025
 
 Based on results we create a dataframe containing how many bills were introduced
@@ -219,20 +256,23 @@ bills727 <- read_csv("~/R Scripts and Projects/727_bills.csv",
 #dataset can be found in github repository
 ```
 
-## Analysis and Results
-Compares the volume of coverage for objectives between both agendas and across
+# Analysis and Results
+Compare the volume of coverage for objectives between both agendas and across
 their respective progression status.
 
-#### Google Trends
+## Google Trends
+
 This plot reflects the mean number of hits across the respective 5 year periods
 of data I have for each agenda. We see that across the board there is relatively
 similar interest with broadband internet topics being high despite their 
 lackluster progression. 
-```{r, message=FALSE, error=FALSE, warning=FALSE}
+
+
+```{r, message=FALSE, error=FALSE, warning=FALSE, echo=FALSE}
 
 #create function that twill allows us to pull out the total hits/ query
 df2tibble <- function(df) {
-  tibble_data <- as_tibble(df$interest_over_time) %>%
+  tibble_data <- as_tibble(df) %>%
     drop_na() %>%
     mutate(hits = as.numeric(hits)) %>% 
     mutate(hits = replace_na(hits, 0))
@@ -297,7 +337,24 @@ ggplot(stats, aes(x = factor(dataset, levels = c("2020 Target Met",
 
 ```
 
-Here, we assess the total number of hits and mapped it across the states to
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Next, we assess the total number of hits and mapped it across the states to
 observe where the Google trends data volume is coming from. We do this in order
 to salience of these topics within the general public and locate where in the
 general public we observe this.We see that for target met objectives there is 
@@ -308,22 +365,31 @@ Carolina in 2020-2024. Lastly, for worsening progress, we see that the searches
 are dense across the board and in states such as California and Oregon which 
 are not usually associated with the "rural and poor" label that comes with a 
 lack of internet. 
-```{r}
+
+
+
+
+
+
+
+
+
+```{r, echo=FALSE}
 #create a function that will allow us to pull out hits/state(region)
 df2tibble_state <- function(df) {
-  tibble_data <- as_tibble(df$interest_by_region) %>%
+  tibble_data <- as_tibble(df) %>%
     drop_na() %>%
     mutate(hits = as.numeric(hits)) %>% 
     mutate(hits = replace_na(hits, 0))
   return(tibble_data)
 }
 
-targetmet_20_state <- df2tibble_state(targetmet_20)
-nochange_20_state <- df2tibble_state(nochange_20)
-worse_20_state <- df2tibble_state(worse_20)
-targetmet_30_state <- df2tibble_state(targetmet_30)
-nochange_30_state <- df2tibble_state(nochange_30)
-worse_30_state <- df2tibble_state(worse_30)
+targetmet_20_state <- df2tibble_state(targetmet_20_state)
+nochange_20_state <- df2tibble_state(nochange_20_state)
+worse_20_state <- df2tibble_state(worse_20_state)
+targetmet_30_state <- df2tibble_state(targetmet_30_state)
+nochange_30_state <- df2tibble_state(nochange_30_state)
+worse_30_state <- df2tibble_state(worse_30_state)
 
 #create a function that takes the total number of hits and organizes it
 #from greatest to least 
@@ -469,11 +535,22 @@ combined_plot <- plot_grid(
 combined_plot
 ```
 
-#### Dow Jones
+
+
+
+
+
+
+
+
+
+
+## Dow Jones
+
 We see again that there is high interest for broadband internet topics but 
 surprising much lower interest for our in progress topic of accessing health 
 information (EHR) by assessing the mean number of articles per objective.
-```{r}
+```{r, echo=FALSE}
 #gather the values for the mean number of articles per objective
 mean_hits <- hit727 %>%
   group_by(objective) %>%
@@ -514,10 +591,19 @@ ggplot(mean_hits, aes(x = factor(objective, levels = c("2020 Target Met",
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "none")
 ```
+
+
+
+
+
+
+
+
 We then look at this plot below to observe the overall trend of these
 objectives in news media. As a whole, we see a decrease in articles over time, 
 but we see that this decrease occurs at different rates per objective.
-```{r}
+
+```{r, echo=FALSE, message=FALSE}
 #observe trends for number of articles over time
 ggplot(hit727, aes(x = date, y = hits, color = objective, group = objective)) +
   geom_line() +
@@ -534,7 +620,10 @@ ggplot(hit727, aes(x = date, y = hits, color = objective, group = objective)) +
   scale_x_continuous(breaks = seq(min(hit727$date), max(hit727$date), by = 1)) +
   theme_minimal() 
 ```
-### Congressional Terms
+
+
+
+## Congressional Terms
 
 Here, we observe the total number of bills introduced by the House and Senate
 across each topic. We compare that to the percentage of bills that are
@@ -544,7 +633,7 @@ medical information or health promotion. Despite this we still see a simillar
 percentage of laws that are enacted across topic. However, since the 117th
 congressional term, the percentage of bills enacted regarding the internet
 have been much lower.
-```{r}
+```{r, echo=FALSE}
 #create a column that assesses the percentage of bills enacted for 
 #each topic/ term
 bills_percent <- bills727 %>%
@@ -592,7 +681,11 @@ combined <- plot_grid(
 )
 combined
 ```
-#Conclusions
+
+
+
+
+# Conclusions
 Based on these findings, we are able to assert that objectives across
 progression status have similar prevalence across the stakeholders we observed
 (general public, news media, and lawmakers). Thus, we can not certainly say that
@@ -612,7 +705,7 @@ results. We hope that increased news coverage may be able to address the
 interest and concerns that the public has and thus influence lawmakers to do 
 more regarding these topics.
 
-#References
+# References
 https://www.cdc.gov/nchs/healthy_people/hp2020/progress-tables.htm 
 
 https://odphp.health.gov/healthypeople/objectives-and-data/browse-objectives/health-communication
